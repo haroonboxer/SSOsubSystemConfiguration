@@ -5,14 +5,18 @@ using Application.Features.AccountFeatures.Account.Commands;
 using Application.Features.AccountFeatures.Account.Query;
 using MediatR;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.IdentityModel.Tokens;
 using System.Data.Common;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Security.Cryptography.Xml;
+using System.Security.Principal;
 using System.Text;
+using System.Text.Json;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 namespace Presentation.Controllers
 {
@@ -90,7 +94,6 @@ namespace Presentation.Controllers
                 return Unauthorized("Token is missing");
 
             var key = Encoding.UTF8.GetBytes("Policy-Management-Secrete-Key-2026");
-
             var tokenHandler = new JwtSecurityTokenHandler();
 
             try
@@ -107,45 +110,52 @@ namespace Presentation.Controllers
                     ValidateIssuerSigningKey = true,
 
                     IssuerSigningKey = new SymmetricSecurityKey(key),
-                    ClockSkew = TimeSpan.Zero // no delay in expiration
-                }, out SecurityToken validatedToken);
+                    ClockSkew = TimeSpan.Zero
+                }, out _);
 
-                // 🔹 Create cookie login
-                await HttpContext.SignInAsync(
-                    "Cookies",
-                    principal
+                var identity = principal.Identity as ClaimsIdentity;
+
+                if (identity == null)
+                    return Unauthorized("Invalid identity");
+
+                // Create cookie identity
+                var claimsIdentity = new ClaimsIdentity(
+                    identity.Claims,
+                    CookieAuthenticationDefaults.AuthenticationScheme,
+                    ClaimTypes.Name,
+                    ClaimTypes.Role
                 );
 
-                // 🔹 Redirect inside subsystem
+                // Handle roles if JSON
+                var roleJson = identity.FindFirst("Role")?.Value;
+
+                if (!string.IsNullOrEmpty(roleJson))
+                {
+                    var roles = JsonSerializer.Deserialize<List<string>>(roleJson);
+
+                    foreach (var role in roles)
+                    {
+                        claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, role));
+                    }
+                }
+
+                var principalToSign = new ClaimsPrincipal(claimsIdentity);
+
+                await HttpContext.SignInAsync(
+                    CookieAuthenticationDefaults.AuthenticationScheme,
+                    principalToSign,
+                    new AuthenticationProperties
+                    {
+                        IsPersistent = true,
+                        ExpiresUtc = DateTimeOffset.UtcNow.AddHours(2)
+                    });
+
                 return RedirectToAction("Index", "Home");
             }
-            catch (Exception ex)
+            catch
             {
                 return Unauthorized("Invalid token");
             }
-        }
-        [HttpGet]
-        [Authorize]
-        public async Task<IActionResult> RegisternewUser()
-        {
-            var query = new RankQuery  
-            {
-            };
-           
-            ViewBag.Ranks =await  _madiat.Send(query);
-            var RoleQuery = new RolesQuries
-            {
-
-            };
-            ViewBag.Role = await _madiat.Send(RoleQuery);
-            var DepartmentQuery = new DepartmentQuery
-            {
-            };
-            ViewBag.Department = await _madiat.Send(DepartmentQuery);
-
-           
-            return View();
-
         }
         [HttpPost]
         [Authorize]

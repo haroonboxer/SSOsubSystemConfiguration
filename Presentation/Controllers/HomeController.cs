@@ -15,6 +15,8 @@ namespace Presentation.Controllers
         [Authorize]
         public IActionResult Index()
         {
+            var isAuth = User.Identity.IsAuthenticated.ToString();
+            var cookies = Request.Cookies;
             _logger.LogInformation("User is logged to the Index of home controler");
             return View();
         }

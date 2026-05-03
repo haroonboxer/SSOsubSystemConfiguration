@@ -18,38 +18,49 @@ namespace Infrastructure
 {
     public static class InfrastructureDependancyInjection
     {
-      
-            public static IServiceCollection AddInfrastructure(this IServiceCollection services,IConfiguration configuration)
-            {
-                    services.AddDbContext<AppDbContext>(options =>
-                        options.UseSqlServer(configuration.GetConnectionString("PolicyManagementConnection")));
 
-                    services.AddIdentity<AppUser, IdentityRole>()
-                        .AddEntityFrameworkStores<AppDbContext>()
-                        .AddDefaultTokenProviders();
+        //public static IServiceCollection AddInfrastructure(this IServiceCollection services,IConfiguration configuration)
+        //{
+        //        services.AddDbContext<AppDbContext>(options =>
+        //            options.UseSqlServer(configuration.GetConnectionString("PolicyManagementConnection")));
 
-                    services.AddScoped<IUnitOfWork, UnitOfWorkRepository>();
+        //        services.AddIdentity<AppUser, IdentityRole>()
+        //            .AddEntityFrameworkStores<AppDbContext>()
+        //            .AddDefaultTokenProviders();
 
-            services.Configure<IdentityOptions>(opt =>
-            {
-                opt.Password.RequiredLength = 10;
-                opt.Password.RequireDigit = true;
-                opt.Password.RequireLowercase = true;
-                opt.Password.RequireDigit = true;
-                opt.Password.RequireUppercase = true;
-                opt.Password.RequireNonAlphanumeric = true;
-                opt.Lockout.AllowedForNewUsers = true;
-                opt.Lockout.MaxFailedAccessAttempts = 5;
-                opt.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(15);
-            });
-            services.ConfigureApplicationCookie(option =>
-            {
-                option.ExpireTimeSpan = TimeSpan.FromDays(30);
-                option.SlidingExpiration = true;
-            });
+        //        services.AddScoped<IUnitOfWork, UnitOfWorkRepository>();
+
+        //services.Configure<IdentityOptions>(opt =>
+        //{
+        //    opt.Password.RequiredLength = 10;
+        //    opt.Password.RequireDigit = true;
+        //    opt.Password.RequireLowercase = true;
+        //    opt.Password.RequireDigit = true;
+        //    opt.Password.RequireUppercase = true;
+        //    opt.Password.RequireNonAlphanumeric = true;
+        //    opt.Lockout.AllowedForNewUsers = true;
+        //    opt.Lockout.MaxFailedAccessAttempts = 5;
+        //    opt.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(15);
+        //});
+        //services.ConfigureApplicationCookie(option =>
+        //{
+        //    option.ExpireTimeSpan = TimeSpan.FromDays(30);
+        //    option.SlidingExpiration = true;
+        //});
+        //services.AddHttpContextAccessor();
+        //        return services;
+        //}
+        public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddDbContext<AppDbContext>(options =>
+                options.UseSqlServer(configuration.GetConnectionString("PolicyManagementConnection")));
+
+            services.AddScoped<IUnitOfWork, UnitOfWorkRepository>();
+
             services.AddHttpContextAccessor();
-                    return services;
-            }
+
+            return services;
+        }
     }
     
 }
