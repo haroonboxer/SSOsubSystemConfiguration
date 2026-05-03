@@ -1,0 +1,704 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization;
+@inject IViewLocalizer Localizer
+<style>
+    #UserList th,
+    #UserList td {
+        text-align: center;
+        vertical-align: middle; /* Optional: vertically center content */
+    }
+
+    #UserList thead th {
+        background-color: #212529 !important; /* Bootstrap dark */
+        color: #fff !important;
+    }
+
+    /* .dataTables_wrapper .dataTables_length {
+        display: flex;
+        justify-content: flex-end;
+     } */
+
+</style>
+<div id="loader">
+    <div class="loader-effect">
+
+        <p class="loader-text">@Localizer["Loading"]</p>
+        <img src="~/loader/loader.gif" />
+    </div>
+</div>
+@section JQueryDatatable
+{
+    <link href="~/assets/plugins/custom/datatables/datatables.bundle.rtl.css" rel="stylesheet" />
+ 
+ 
+}
+<div class="subheader py-2 py-lg-6 subheader-solid hidden-print" id="kt_subheader">
+    <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+        <a href="/Account/RegisternewUser" class="btn btn-outline-dark">@Localizer["Add User"]</a>
+
+        <div>
+           
+            <a class="btn btn-outline-dark btn-sm"href="/home/Index">@Localizer["Main page"]</a>
+            <a class="btn btn-outline-dark btn-sm" href="/Account/Index"><i class="fa fa-arrow-left"> </i></a>
+        </div>
+        </div>
+
+    </div>
+
+<div class="modal fade" id="EditUserModal" tabindex="-1" role="dialog" aria-labelledby="EditAllegation">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">@Localizer["Edit User"]</h5>
+            </div>
+       
+            <form id="frmEditNewUser">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <fieldset class="form-group">
+                                <input type="hidden" id="AppUserid" name="id" />
+                                <label class="form-label" for="Name">@Localizer["UserName"]<span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" name="Name" id="Name" placeholder="@Localizer["write"]" />
+                                <span class="text-danger" id="NameError"></span>
+                            </fieldset>
+                        </div>
+                        <div class="col-md-4">
+                            <fieldset class="form-group">
+                                <label class="form-lable">@Localizer["Local Lang Name"]<span class="text-danger">*</span></label>
+                                <input type="text" name="LocalName" id="LocalName" class="form-control" placeholder="@Localizer["write"]" />
+                            </fieldset>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <fieldset class="form-group">
+                                <label class="form-label" for="Email">@Localizer["Email"]</label>
+                                <input type="email" class="form-control" name="Email" id="Email" placeholder="@Localizer["write"]" />
+                            </fieldset>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <fieldset class="form-group">
+                                <label class="form-label" for="PhoneNumber">@Localizer["Phone Number"]<span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" name="PhoneNumber" id="PhoneNumber" maxlength="10" minlength="10" placeholder="@Localizer["write"]" />
+                            </fieldset>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <fieldset class="form-group">
+                                <label class="form-label" for="RankId">@Localizer["User Rank"]<span class="text-danger">*</span></label>
+                                <select id="RankId" name="RankId" class="form-control">
+                                    <option value="">@Localizer["Select Rank"]</option>
+                                    @if (ViewBag.Ranks != null)
+                                    {
+                                        @foreach (var item in ViewBag.Ranks)
+                                        {
+                                            <option value="@item.id">@item.Name</option>
+                                        }
+                                    }
+                                </select>
+                            </fieldset>
+                        </div>
+                    </div>
+             
+                    <div class="row">
+               
+                   
+                        <div class="col-md-12 mb-3">
+                            <fieldset class="form-group">
+                                <label class="form-label" for="DepartmentId">@Localizer["User Department"]<span class="text-danger">*</span></label>
+                                <select id="DepartmentId" name="DepartmentId" class="form-select">
+
+                                    <option value=""></option>
+                                    @if (@ViewBag.Department != null)
+                                    {
+                                        @foreach (var item in ViewBag.Department)
+                                        {
+                                            <option value="@item.Id">@item.DepartmentName</option>
+                                        }
+                                    }
+                                </select>
+                            </fieldset>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <button id="btnUpdateUser" class="btn btn-primary">@Localizer["save"]</button>
+                        <button type="button" id="btnCloseAdd" class="btn btn-secondary" data-dismiss="modal">@Localizer["Close"]</button>
+                    </div>
+                </div>
+
+            </form>
+                 
+                </div>
+          
+        </div>
+    </div>
+<div class="modal fade" id="editRoleModal" tabindex="-1" role="dialog" aria-labelledby="EditAllegation">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">@Localizer["Edit Role"]</h5>
+            </div>
+            <form id="changeRoleform">
+           <div class="col-12">
+           <div class="form-group">
+           <input type="hidden" id="UserItForRole"name="UserId"
+           <label class="form-label">@Localizer["Role"]</label>
+           <select class="form-select" id="Roles"name="RoleId">
+               <option value=""></option>
+                    </select>
+           </div>
+               <div class="form-group">
+                   <div class="d-flex justify-content-between">
+
+                        <button class="btn btn-outline-primary" id="btnsaveRole">@Localizer["save"]</button>
+                            <button type="button" class="btn btn-outline-primary" onclick="CloseModal('#editRoleModal','#changeRoleForm')">
+                                @Localizer["Close"]
+                            </button>
+
+                   </div>
+               </div>
+                </div>
+       </form>
+
+        </div>
+
+    </div>
+</div>
+
+<div class="modal fade" id="ChangePasswordModal" tabindex="-1" role="dialog" aria-labelledby="EditAllegation">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">@Localizer["Edit password"]</h5>
+            </div>
+            <form id="changePasswordForm">
+                <div class="col-12">
+                    <div class="form-group">
+                        <input type="hidden" id="changepassworduserid" name="UserId" />
+
+                        <label class="form-label">@Localizer["Password"]</label>
+                        <input type="password" name="password"id="password"class="form-control"/>
+                        <div class="col-d-6 mb-3">
+                            <div class="col-d-6 mb-3">
+                                <small id="passwordError" style="color:red; display:none;">@Localizer["Complix Password"]</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">@Localizer["Confirm Password"]</label>
+                        <input type="password" class="form-control" id="confirmpassword" name="confirmpassword" />
+                    </div>
+                    <div class="form-group">
+                        <div class="d-flex justify-content-between">
+                            <button class="btn btn-outline-primary" id="btnsaveChangepassword">@Localizer["save"]</button>
+                            <button type="button" class="btn btn-outline-primary" onclick="CloseModal('#ChangePasswordModal','#changePasswordForm')">
+                                @Localizer["Close"]
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+     
+    </div>
+</div>
+<div class="card shadow">
+    <table id="UserList" class="table table-hover">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th scope="col">@Localizer["UserName"]</th>
+                <th scope="col">@Localizer["Email"]</th>
+                <th scope="col">@Localizer["Department"]</th>
+                <th scope="col">@Localizer["Rank"]</th>
+                <th scope="col">@Localizer["Role"]</th>
+                <th scope="col">@Localizer["Action"]</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+</div>
+@section script
+{
+     <script src="~/assets/plugins/custom/datatables/datatables.bundle.js"></script>
+    
+ 
+    <!-- Bootstrap JS (bundle includes Popper for dropdowns) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+   
+    <script>
+        //for Loading Roles
+          function CloseModal(id,formid) 
+        {
+
+                $(id).modal("hide");
+        }
+        
+        $(document).ready(function()
+        {
+
+             $.ajax({
+                  url:"/Account/LoadRoles",
+                  type:"GET",
+                  dataType:"JSON",
+                  beforeSend:function()
+                  {
+                      $("#loader").show();
+                  },
+                  success:function(response)
+                  {
+                     
+                       $("#Roles").empty();
+                      $.each(response,function(index,item){
+                            $("#Roles").append(`<option value='${item.id}'>${item.roleName}</option>`)
+                      })
+                  }
+             });
+        })
+        $(document).ready(function()
+        {
+             $("#loader").hide();
+              $("#Roles").select2({
+                  placeholder:"@Localizer["select"]",
+                  allowClear:true,
+                  width:'100%',
+                   dropdownParent:$("#editRoleModal")
+              })
+            $("#DepartmentId").select2({
+                placeholder:"@Localizer["select"]",
+                allowClear:true,
+                width:"100%",
+                dropdownParent:$("#EditUserModal")
+                
+            });
+
+            $("#RoleId").select2({
+                placeholder:"@Localizer["select"]",
+                allowClear:true,
+                width:"100%",
+                dropdownParent:$("#EditUserModal")
+            });
+            $("#RankId").select2({
+                placeholder:"@Localizer["select"]",
+                allowClear:true,
+                width:"100%",
+                dropdownParent:$("#EditUserModal")
+            });
+        });
+            $(document).ready(function () {
+
+
+            $("#frmEditNewUser").validate({
+                rules: {
+                    Name: { required: true },
+                    LocalName: { required: true },
+                    Email: { email: true },
+                        PhoneNumber: { required: true,
+                                    minlength: 10,
+                                    maxlength: 10 },
+                    RankId: { required: true },
+                    RoleId: { required: true },
+                    DepartmentId: { required: true },
+                },
+                messages: {
+                    Name: { required: "@Localizer["user name is required"]" },
+                    LocalName: { required: "@Localizer["Local name is required"]" },
+                    Email: { email: "@Localizer["enter valid email"]"},
+                        PhoneNumber: { required: "@Localizer["phone number is required"]" ,minlength: "@Localizer["min 10"]", maxlength: "@Localizer["max 10"]"},
+                    RankId: { required: "@Localizer["rank is required"]" },
+                    RoleId: { required: "@Localizer["role is required"]" },
+                    DepartmentId: { required: "@Localizer["dep is required"]" },
+                },
+                errorClass: "text-danger"
+            });
+
+            $("#btnUpdateUser").click(function (e) {
+                e.preventDefault();
+                if ($("#frmEditNewUser").valid()) {
+
+                    $.ajax({
+                        url: "/Account/UpdateUser",
+                        type: "POST",
+                        dataType: "JSON",
+                        data: $("#frmEditNewUser").serialize(), // ✅ important
+                        beforeSend: function () {
+                            $("#loader").show();
+                        },
+                        success: function (res) {
+                            $("#loader").hide();
+                     
+                            if (res.message.success==true ) 
+                            {
+                                 table.ajax.reload();
+                               Swal.fire({
+                                    toast: true,
+                                    position: "top-end",
+                                    icon: "success",
+                                      title:"@Localizer["success"]",
+                                     text: '@Localizer["Info updated successfully"]',
+                                    timer: 2000,
+                                    timerProgressBar: true,
+                                    showConfirmButton: false
+                                });
+
+                            } 
+                            else
+                            {
+                                Swal.fire({
+                                    toast: true,
+                                    position: "top-end",
+                                    icon: "error",
+                                    title: "@Localizer["danger"]",
+                                    text: "@Localizer["info is not updated"]"+res.message.errorList,
+                                    timer: 2000,
+                                    timerProgressBar: true,
+                                    showConfirmButton:false,
+                                });
+                            }
+                        },
+                        error: function () {
+                            $("#loader").hide();
+                        }
+                    });
+
+                }
+
+            });
+
+             $("#changeRoleform").validate({
+                 rules:
+                 {
+                      RoleId:{
+                          required:true
+                     }
+                 },
+                 messages:
+                 {
+                       RoleId:{required:"@Localizer["role is required"]"}
+                 },
+             });
+             $("#btnsaveRole").click(function(){
+                  if($("#changeRoleform").valid())
+                  {
+                      $.ajax({
+                           url:"/Account/ChangeUserRole",
+                          type:"POST",
+                          dataType:"JSON",
+                          beforeSend:function()
+                          {
+                            $("#loader").hide();
+                          },
+                          data:$("#changeRoleform").serialize(),
+                          success:function(response)
+                          {
+                                if(response=="Role added successfuly")
+                              {
+                                  table.ajax.reload();
+                                  Swal.fire({
+                                      toast:true,
+                                      position:"top-end",
+                                      title:"@Localizer["success"]",
+                                      icon:"success",
+                                      text:"@Localizer["Role Change"]",
+                                      timer:2000,
+                                      timerProgressBar:true,
+                                      showConfirmButton:false,
+                                  })
+                              }
+                          },
+                          error:function()
+                          {
+
+                          },
+                      });
+                  }
+             });
+
+        });
+
+             $(document).ready(function() {
+     
+        });
+                var table = $("#UserList").DataTable({
+                  processing: true,
+                  serverSide: false,
+                  ordering: false,
+                  searching: false,
+                  ajax: {
+                     url: "/Account/LoadUser",
+                     type: "POST",
+                      contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                     dataSrc: function(json) {
+
+                         console.log(json);
+                         return json.data || [];
+                     }
+                 },
+                 columns: [
+                     { data: null, orderable: false, searchable: false,
+                       render: function(data, type, row, meta) {
+                           return meta.row + 1 + meta.settings._iDisplayStart;
+                       }
+                     },
+                     { data: "name" },
+                     { data: "email", className: "text-center" },
+                     { data: "department", className: "text-center" },
+                     { data: "rank", className: "text-center" },
+                     { data: "role", className: "text-center" },
+                     { data: null, orderable: false, className: "text-center",
+                              render: function(data, type, row) {
+
+                             const nameSafe = row.Name ? row.Name.replace(/'/g,"\\'") : '';
+
+                             return `
+                                 <div class="dropdown">
+                                     <button class="btn btn-sm btn-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                         @Localizer["Action"]
+                                     </button>
+                                     <ul class="dropdown-menu">
+                                         <li>
+                                             <a class="dropdown-item" href="#" onclick="openEditModal('${row.id}', '${nameSafe}')">
+                                                 @Localizer["Edit"]
+                                             </a>
+                                         </li>
+                                         <li>
+
+                                         ${ row.activeState
+                                             ? `<button class="dropdown-item" onclick="toggleUser('${row.id}','${false}')">@Localizer["De Activate"]</button>`
+                                              :`<button class="dropdown-item" onclick="toggleUser('${row.id}','${true}')">@Localizer["Active"]</button>` }
+                                         </li>
+                                         <li>
+
+                                         <button class="dropdown-item" onclick="OpenEditRoleModal('${row.id}')">@Localizer["Edit Role"]</button>
+                                         </li>
+                                         <li >
+                                                <button class="dropdown-item" onclick="Changepassword('${row.id}')">@Localizer["Change Pass"]</button>
+                                         </li>
+                                     </ul>
+                                 </div>
+             `;
+         }
+
+                     }
+                 ],
+                 language: {
+                     search: "_INPUT_",
+                     searchPlaceholder: "Search",
+                     lengthMenu: "@Localizer["Display"]_MENU_ @Localizer["records"]",
+                     info: "@Localizer["Showing"]_START_ @Localizer["to"]_END_ @Localizer["of"] _TOTAL_ @Localizer["records"]",
+                     infoEmpty: "@Localizer["No data available"]",
+                     loadingRecords: "@Localizer["Loading"]...",
+                     zeroRecords: "@Localizer["No matching records found"]",
+                     paginate: { first: "@Localizer["First"]", last: "@Localizer["Last"]", next: "@Localizer["Next"]", previous: "@Localizer["Previous"]" },
+                     processing: "@Localizer["Processing"]..."
+                 },
+                 order: [[1, "asc"]],
+                 destroy: true
+             });
+
+             // If table is initially hidden
+             table.columns.adjust().draw();
+        function toggleUser(UserId,isActive)
+        {
+             
+            $.ajax({
+                url:"/Account/ActivateDeActivatedUser",
+                type:"POST",
+                dataType:"JSON",
+                data:
+                {
+                      UserId:UserId,
+                      Activation:isActive
+                },
+                beforeSend:function()
+                {
+                    $("#loader").show();
+                },
+                success:function(response)
+                {
+                     $("#loader").hide();
+                    table.ajax.reload();
+
+                    if(response=="User is De Activated")
+                    {
+                        Swal.fire({
+                            toast:true,
+                            position:"top-end",
+                            icon:"warning",
+                            title:"@Localizer["success"]",
+                            text:"@Localizer["User DeActivated"]",
+                            timer:2000,
+                            timerProgressBar:true,
+                            showConfirmButton:false,
+                        })
+                    }
+                    if(response == "User is Activated")
+                    {
+                          Swal.fire({
+                            toast:true,
+                            position:"top-end",
+                            icon:"success",
+                            title:"@Localizer["success"]",
+                            text:"@Localizer["User Activated"]",
+                            timer:2000,
+                            timerProgressBar:true,
+                            showConfirmButton:false,
+                        })
+                    }
+                },
+                error:function()
+                {
+                    $("#loader").hide();
+                }
+            })
+        }
+        function openEditModal(id)
+        {
+            $("#loader").show();
+      
+            $.ajax({
+                url:'/Account/Getuser',
+                type:"GET",
+                dataType:"JSON",
+                data:{
+                    UserId:id
+                },
+                success:function(response)
+                {
+      
+
+                $("#frmEditNewUser")[0].reset();
+                $("#frmEditNewUser").validate().resetForm();
+             $("#passwordError").hide();
+                     $("#loader").hide();
+                    $("#AppUserid").val(response.id);
+                    $("#Name").val(response.name);
+                    $("#LocalName").val(response.localName);
+                    $("#Email").val(response.email);
+                    $("#PhoneNumber").val(response.phoneNumber);
+                    $("#RankId").val(response.rankId).trigger("change");
+                    $("#DepartmentId").val(response.departmentId).trigger("change");
+                },
+                error:
+                {
+
+                }
+
+            });
+            $("#EditUserModal").modal("show");
+        }
+     
+       function OpenEditRoleModal(id)
+       {
+      
+
+        $("#changeRoleform")[0].reset();
+        $("#changeRoleform").validate().resetForm();
+        $("#UserItForRole").val(id);
+        $("#editRoleModal").modal("show");
+       }
+        function Changepassword(id)
+        {
+                $("#changePasswordForm")[0].reset();
+                $("#changePasswordForm").validate().resetForm();
+               $("#passwordError").hide();
+
+              $("#changepassworduserid").val(id);
+           $("#ChangePasswordModal").modal("show");
+        }
+               function isComplexPassword(password) {
+                             // Regex: min 8 chars, 1 uppercase, 1 lowercase, 1 number, 1 special char
+                             var pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@@$!%*?&])[A-Za-z\d@@$!%*?&]{8,}$/;
+                          return pattern.test(password);
+             } 
+        $(document).ready(function()
+        {
+
+               $("#password").on("input", function () {
+             var pass = $(this).val();
+             if (!isComplexPassword(pass)) {
+                 $("#passwordError").show();
+             } else {
+                 $("#passwordError").hide();
+             }
+         });
+          $("#changePasswordForm").validate({
+             rules:
+             {
+                 password:
+                 {
+                     required:true,
+                      minlength:10,
+                  
+                 },
+                  confirmpassword:
+                 {
+                     required:true,
+                     equalTo:"#password"
+                 }
+             },
+             messages:
+             {
+                 password:
+                 {
+                      required:"@Localizer["password is required"]",
+                      minlength:"@Localizer["at least 10 words"]"
+                 },
+                  confirmpassword:
+                 {
+                     required:"@Localizer["confirm password is required"]",
+                     equalTo:"@Localizer["not same"]"
+                 },
+                 
+
+             },errorClass:"text-danger",
+         })
+          $("#btnsaveChangepassword").click(function(e)
+          {
+              e.preventDefault();
+              
+               if($("#changePasswordForm").valid())
+               {
+                   $.ajax({
+                        url:"/Account/ChangePassword",
+                        type:"POST",
+                        dataType:"JSON",
+                        beforeSend:function()
+                        {
+                            $("#loader").show();
+                        },
+                          data:$("#changePasswordForm").serialize(),
+                        success:function(response)
+                        {
+                            $("#loader").hide();
+                            console.log(response);
+                             if(response=="password changed successfully")
+                             {
+                                 table.ajax.reload;
+                                   $("#ChangePasswordModal").modal("hide");
+                                    $("#changePasswordForm")[0].reset();
+                                 Swal.fire({
+                                     toast:true,
+                                     icon:"success",
+                                     title:"@Localizer["success"]",
+                                     position:'top-end',
+                                     text:"@Localizer["Password change"]",
+                                     timer:2000,
+                                     timerProgressBar:true,
+                                     showConfirmButton:false,
+
+                                 });
+                             }
+                        },
+                        error:function(erro)
+                        {
+
+                        }
+
+                   });
+               }
+          });
+        });
+    </script>
+}

@@ -1,0 +1,116 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization;
+@inject IViewLocalizer Localizer;
+
+<div class="subheader py-2 py-lg-6 subheader-solid hidden-print mb-0" id="kt_subheader">
+    <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+        <!--begin::Info-->
+        <div class="d-flex align-items-center flex-wrap mr-2">
+            @Localizer["New Role"]
+            <button id="NewRole" class="btn btn-outline-dark font-weight-bolder btn-sm mr-2"><i class="fa fa-plus"></i></button>
+        </div>
+        <!--end::Info-->
+        <div class="d-flex align-items-between flex-wrap">
+            <div>
+            <a href="/Home/Index" class="btn btn-outline-dark font-weight-bolder btn-sm mr-2">@Localizer["To Main Page"]</a>
+                <a href="/Account/Index" class="btn btn-outline-dark font-weight-bolder btn-sm"><span class="fa fa-arrow-left"></span></a>
+            </div>
+          
+
+    </div>
+</div>
+</div>
+    <div class="modal fade" id="AddNewRole" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">@Localizer["Add New Role"]</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="AddRole">
+                    <div class="modal-body">
+
+                        <div class="col-md-12">
+                            <fieldset>
+                                <input type="hidden" id="EditRoleId" name="RoleId" />
+                                <label>@Localizer["Role Name"]</label>
+                            <input type="text" class="form-control" id="AddName" name="RoleName" placeholder="@Localizer["Write Role"]" />
+                            </fieldset>
+                        </div>
+                    </div>
+                    <div class="modal-footer p-3 d-flex justify-content-between">
+
+                        <button type="button" class="btn btn-primary" id="btnEditRole"><span class="fa fa-save"></span></button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"><span class="fa fa-times"></span></button>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+<div class="card shadow">
+    <div class="row">
+    @foreach (var item in @ViewBag.Role)
+    {
+        <div class="col-sm-12 col-md-4 col-lg-3 mb-5 mt-5">
+            <div class="card h-100 bg-hover-gray-300 shadow zoom" style="border: 2px solid #2059a6 !important;">
+            <a asp-controller="Account" asp-action="RoleDetail" asp-route-RoleId="@item.Id" asp-para class="text-dark">
+                <div class="card-body p-9">
+                    <div class="d-flex justify-content-around">
+                        <div class="fs-2hx font-weight-bolder font-size-h1 ">@item.RoleName</div>
+                        <div>
+                            <img src="~/icons/Role.png" alt="" style="max-width: 40px !important;">
+
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+    }
+    </div>
+</div>
+@section script
+{
+    <script>
+        $(document).ready(function()
+        {
+              $("#NewRole").click(function(){
+                 $("#AddNewRole").modal("show");
+              });
+              $("#AddRole").validate({
+                  rules:
+                  {
+                      RoleName:{
+                          required:true,
+                      }
+                  },
+                  messages:
+                  {
+                      RoleName:{required:"@Localizer["Name is required"]"}
+                  }
+              })
+              $("#btnEditRole").click(function()
+              {
+                  if($("#AddRole").valid())
+                  {
+                      $.ajax({
+                          url:"/Account/AddRole",
+                          type:"POST",
+                          dataType:"JSON",
+                          data:$("#AddRole").serialize(),
+                          success:function(res)
+                          {
+
+                          },
+                          error:function(error)
+                          {
+
+                          }
+                      });
+                  }
+              });
+        })
+    </script>
+}

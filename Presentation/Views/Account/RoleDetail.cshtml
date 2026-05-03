@@ -1,0 +1,78 @@
+﻿@model RolesDetailDto
+@using Application.DTO.Accountdto
+@using Microsoft.AspNetCore.Mvc.Localization;
+@inject IViewLocalizer Localizer;
+
+<div class="subheader py-2 py-lg-6 subheader-solid hidden-print" id="kt_subheader">
+    <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+        <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+            <div></div>
+            <div>
+                <a class="btn btn-outline-dark btn-sm" href="/home/Index">@Localizer["To Main Page"]</a>
+                <a class="btn btn-outline-dark btn-sm" href="/Account/Roles"><i class="fa fa-arrow-left"> </i></a>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="row justify-content-center">
+    <div class="col-md-12 auto pl-3 pr-0 ">
+        <section class="flexbox-container">
+            <div class=" d-flex align-items-center justify-content-center mt-4">
+                <div class="col-12 box-shadow-2 p-0">
+                    <form asp-action="AddOrRemovePermissionToRole" asp-controller="Account" method="post">
+                        <div class="card border-grey border-lighten-3 m-0">
+                            <div class="card-header">
+                                <h3 class="">@Localizer["Role And Permissions"]</h3>
+                                <div class="card-title text-center">
+                                    <div class="border d-flex justify-content-around" style="width:100%; height:30px;">
+                                        <label>@Localizer["Role Name"]  </label><br />
+                                        <span>   @Model.RoleName</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+
+                                <div class="container">
+                                    <div class="row">
+                                        @foreach (var group in Model.Claims.GroupBy(c => c.groupClaims))
+                                        {
+                                            <div class="col-md-4">
+                                                <div class="card shadow custom-card">
+                                                    <div class="card-header mb-2" style="height: 20px !important;">
+                                                        <h5>@group.Key</h5> <!-- GroupClaims as the card header -->
+                                                    </div>
+                                                    <div class="card-body mt-3">
+                                                        <ul class="list-group list-group-flush">
+                                                            @foreach (var claim in group)
+                                                            {
+
+
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" value="@claim.ClaimType" name="selectedPermissions" type="checkbox" @(claim.ClaimValue ? "checked" : "") />
+                                                                    <label class="form-check-label ms-2">@claim.ClaimType</label>
+                                                                </div>
+
+                                                            }
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                                <input type="hidden" name="RoleId" value="@Model.RoleId" />
+                            </div>
+                            <div class="card-footer d-flex justify-content-start">
+                                <button class="btn btn-primary"> @Localizer["Add Changes"]</button>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+

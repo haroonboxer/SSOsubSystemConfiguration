@@ -1,0 +1,56 @@
+﻿/* Main Loader container */
+#loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(5px);
+    background: rgba(255, 255, 255, 0.4);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+
+/* Loader Background */
+.loader-background {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(8px);
+    background-color: rgba(255, 255, 255, 0.5);
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+/* Loader Effect (Center content) */
+.loader-effect {
+    position: relative;
+    width: 150px;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+}
+
+/* Loader Image */
+.loader-img {
+    width: 100px;
+    height: 100px;
+    z-index: 2;
+}
+
+/* Loader Text */
+.loader-text {
+    margin-top: 20px;
+    font-size: 18px;
+    color: #333;
+    font-weight: bold;
+    font-family: 'Tahoma', sans-serif; /* Good for Persian text */
+}

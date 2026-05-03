@@ -1,0 +1,49 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization;
+@inject IViewLocalizer Localizer
+<div class="subheader py-2 py-lg-6 subheader-solid hidden-print" id="kt_subheader">
+    <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+        <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+            <div></div>  
+            <div>
+            <a class="btn btn-outline-dark btn-sm" href="/home/Index">@Localizer["Main page"]</a>
+            <a class="btn btn-outline-dark btn-sm" href="/home/Index"><i class="fa fa-arrow-left"> </i></a>
+            </div>
+         
+        </div>
+
+        
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12 col-md-4 col-lg-3 mb-5">
+        <div class="card h-100 bg-hover-gray-300 shadow zoom" style="border: 2px solid #2059a6 !important;">
+            <a asp-controller="Account" asp-action="UserList" class="text-dark">
+                <div class="card-body p-9">
+                    <div class="d-flex justify-content-around">
+                        <div class="fs-2hx font-weight-bolder font-size-h1 ">@Localizer["User Management"]</div>
+                        <div>
+                            <img src="~/icons/group.png" alt="" style="max-width: 40px !important;">
+
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-4 col-lg-3 mb-5">
+        <div class="card h-100 bg-hover-gray-300 shadow zoom" style="border: 2px solid #2059a6 !important;">
+            <a asp-controller="Account" asp-action="Roles" class="text-dark">
+                <div class="card-body p-9">
+                    <div class="d-flex justify-content-around">
+                        <div class="fs-2hx font-weight-bolder font-size-h1 ">@Localizer["Role Management"]</div>
+                        <div>
+                            <img src="~/icons/Role.png" alt="" style="max-width: 40px !important;">
+
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>

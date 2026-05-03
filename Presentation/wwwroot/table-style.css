@@ -1,0 +1,17 @@
+table {
+    border-collapse: collapse !important;
+    display: inline-table !important;
+    font-size: 12px !important;
+    width: 100% !important;
+}
+
+th {
+    text-align: center !important;
+}
+
+table,
+th,
+td {
+    padding: 2px !important;
+    border: 1px solid black !important;
+}

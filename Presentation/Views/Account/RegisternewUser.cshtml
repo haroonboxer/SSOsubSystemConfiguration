@@ -1,0 +1,335 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization;
+@inject IViewLocalizer Localizer;
+<div id="loader">
+    <div class="loader-effect">
+
+        <p class="loader-text">@Localizer["Loading"]</p>
+        <img src="~/loader/loader.gif" />
+    </div>
+</div>
+<div class="subheader py-2 py-lg-6 subheader-solid hidden-print mb-0" id="kt_subheader">
+    <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+        <!--begin::Info-->
+        <div class="d-flex align-items-center flex-wrap mr-2">
+        </div>
+        <!--end::Info-->
+        <div class="d-flex align-items-between flex-wrap">
+            <a href="/Home/Index" class="btn btn-primary font-weight-bolder btn-sm mr-2">@Localizer["To Main Page"]</a>
+            <a href="/Account/Index" class="btn btn-primary font-weight-bolder btn-sm"><span class="fa fa-arrow-left"></span></a>
+        </div>
+
+    </div>
+</div>
+    <div class="card shadow-lg">
+ 
+         
+            <form id="frmAddNewUser">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <fieldset class="form-group">
+                                <label class="form-label" for="Name">@Localizer["User Name"]<span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" name="Name" id="Name" placeholder="@Localizer["Write User Name"]" />
+                                <span class="text-danger" id="NameError"></span>
+                            </fieldset>
+                        </div>
+                        <div class="col-md-4">
+                            <fieldset class="form-group">
+                                <label class="form-lable">@Localizer["Local Lang Name"]<span class="text-danger">*</span></label>
+                                <input type="text" name="LocalName" id="LocalName" class="form-control" placeholder="@Localizer["Write in Local Name"]" />
+                            </fieldset>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <fieldset class="form-group">
+                                <label class="form-label" for="Email">@Localizer["Email"]</label>
+                                <input type="email" class="form-control" name="Email" id="Email" placeholder="@Localizer["Write Email"]" />
+                            </fieldset>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <fieldset class="form-group">
+                                <label class="form-label" for="PhoneNumber">@Localizer["Phone Number"]<span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" name="PhoneNumber" id="PhoneNumber" maxlength="10" minlength="10" placeholder="@Localizer["Write Phone Number"]" />
+                            </fieldset>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <fieldset class="form-group">
+                                <label class="form-label" for="RankId">@Localizer["User Rank"]<span class="text-danger">*</span></label>
+                                <select id="RankId" name="RankId" class="form-control">
+                                    <option value="">@Localizer["Select Rank"]</option>
+                                    @if (ViewBag.Ranks != null)
+                                    {
+                                        @foreach (var item in ViewBag.Ranks)
+                                        {
+                                            <option value="@item.id">@item.Name</option>
+                                        }
+                                    }
+                                </select>
+                            </fieldset>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <fieldset class="form-group">
+                                <label class="form-label" for="Password">@Localizer["Password"]<span class="text-danger">*</span></label>
+                                <input type="password" class="form-control" name="Password" id="Password" placeholder="@Localizer["Write Password"]" />
+                        <div class="col-d-6 mb-3">
+                            <div class="col-d-6 mb-3">
+                                <small id="passwordError" style="color:red; display:none;">@Localizer["Complix Password"]</small>
+                                </div>
+                        </div>
+                            </fieldset>
+                         
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <fieldset class="form-group">
+                                <label class="form-label" for="ConfirmPassword">@Localizer["Confirm Password"]<span class="text-danger">*</span></label>
+                                <input type="password" class="form-control" name="ConfirmPassword" id="ConfirmPasswordf" placeholder="@Localizer["Write Confirm Password"]" />
+                            </fieldset>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <fieldset class="form-group">
+                                <label class="form-label" for="RoleId">@Localizer["User Role"] <span class="text-danger">*</span></label>
+                                <select id="RoleId" name="RoleId" class="form-control">
+                                    <option value=""></option>
+                                    @if (ViewBag.Role != null)
+                                    {
+                                        @foreach (var item in ViewBag.Role)
+                                        {
+                                            <option value="@item.Id">@item.RoleName</option>
+                                        }
+
+
+                                    }
+
+                                </select>
+                            </fieldset>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <fieldset class="form-group">
+                            <label class="form-label" for="DepartmentId">@Localizer["User Department"]<span class="text-danger">*</span></label>
+                              <select id="DepartmentId" name="DepartmentId" class="form-select">
+
+                                    <option value=""></option>
+                                        @if (@ViewBag.Department !=null)
+                                        {
+                                            @foreach (var item in ViewBag.Department)
+                                            {
+                                                <option value="@item.Id">@item.DepartmentName</option>
+                                            }
+                                        }
+                               </select>
+                            </fieldset>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <button id="submit" class="btn btn-primary">@Localizer["Save"]</button>
+                        <button type="button" id="btnCloseAdd" class="btn btn-secondary" data-dismiss="modal">@Localizer["Close"]</button>
+                    </div>
+                </div>
+
+            </form>
+       
+</div>
+@section script
+{
+    <script>
+     
+                     function isComplexPassword(password) {
+                            // Regex: min 8 chars, 1 uppercase, 1 lowercase, 1 number, 1 special char
+                            var pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@@$!%*?&])[A-Za-z\d@@$!%*?&]{8,}$/;
+                         return pattern.test(password);
+            }
+                $("#Password").on("input", function () {
+            var pass = $(this).val();
+            if (!isComplexPassword(pass)) {
+                $("#passwordError").show();
+            } else {
+                $("#passwordError").hide();
+            }
+        });
+        $(document).ready(function()
+        {
+            $("#loader").hide();
+            $("#RankId").select2({
+                placeholder:"@Localizer["Select"]",
+                allowClear:true,
+                width:"100%",
+            })
+            $("#RoleId").select2({
+                placeholder:"@Localizer["select"]",
+                allowClear:true,
+                width:"100%"
+            })
+            $("#DepartmentId").select2({
+                placeholder:"@Localizer["select"]",
+                allowClear:true,
+                width:"100%"
+            })
+        });
+                $(document).ready(function () {
+                              $.validator.addMethod("regex", function(value, element, regexp) {
+                                       return this.optional(element) || regexp.test(value);
+                                   }, "Invalid format");
+                    $("#frmAddNewUser").validate({
+                rules: {
+                    Name: {
+                        required: true,
+                        regex: /^[^\s]+$/,
+                        minlength: 3,
+                        maxlength: 50
+                    },
+                    LocalName: {
+                        required: true,
+                        minlength: 3,
+                        maxlength: 50
+                    },
+                    UserJob: {
+                        required: true,
+                        minlength: 2,
+                        maxlength: 50
+                    },
+                    Email:
+                    {
+                        email:true
+                    },
+                    PhoneNumber: {
+                        required: true,
+                        digits: true,
+                        minlength: 10,
+                        maxlength: 10
+                    },
+                    RankId: {
+                        required: true
+                    },
+                    Password: {
+                        required: true,
+                        minlength: 6,
+                        maxlength: 20
+                    },
+                    ConfirmPassword: {
+                        required: true,
+                        equalTo: "#Password"
+                    },
+                    RoleId: {
+                        required: true
+                    },
+                    DepartmentId: {
+                        required: true
+                    }
+                },
+                messages: {
+                    Name: {
+                        required: '@Localizer["Name required"]',
+                        regex: '@Localizer["Username should not contain spaces"]',
+                        minlength: '@Localizer["Minimum 3 characters"]',
+                        maxlength: '@Localizer["Maximum 50 characters"]'
+                    },
+                    LocalName: {
+                        required: '@Localizer["Local Name required"]',
+                        minlength: '@Localizer["Minimum 3 characters"]',
+                        maxlength: '@Localizer["Maximum 50 characters"]'
+                    },
+                    UserJob: {
+                        required: '@Localizer["User Job is required"]',
+                        minlength: '@Localizer["Minimum 3 characters"]',
+                        maxlength: '@Localizer["Maximum 50 characters"]'
+                    },
+                    PhoneNumber: {
+                        required: '@Localizer["PhoneNumber required"]',
+                        digits: '@Localizer["Only digits allowed"]',
+                        minlength: '@Localizer["Exactly 10 digits required"]',
+                        maxlength: '@Localizer["Exactly 10 digits required"]'
+                    },
+                    RankId: {
+                        required: '@Localizer["RankId required"]'
+                    },
+                    Password: {
+                        required: '@Localizer["Password required"]',
+                        minlength: '@Localizer["Minimum 6 characters"]',
+                        maxlength: '@Localizer["Maximum 20 characters"]'
+                    },
+                    ConfirmPassword: {
+                        required: '@Localizer["ConfirmPassword required"]',
+                        equalTo: '@Localizer["Passwords do not match"]'
+                    },
+                    RoleId: {
+                        required: '@Localizer["RoleId required"]'
+                    },
+                    DepartmentId: {
+                        required: '@Localizer["Department required"]'
+                    },
+                     Email:
+                    {
+                        email:"@Localizer["Enter valid Email"]"
+                    },
+                }
+            });
+
+
+            $("#submit").click(function (event) {
+                event.preventDefault(); 
+
+             
+                if ($("#frmAddNewUser").valid()) {
+                    $.ajax({
+                        url: "/Account/RegisternewUser",
+                        type: "POST",
+                        dataType: "JSON",
+                        data: $("#frmAddNewUser").serialize(),
+                        beforeSend: function () {
+                            $("#loader").show(); 
+                        },
+                        success: function (response) {
+                             $("#loader").hide();
+                            if (response.success) {
+
+
+                               $("#frmAddNewUser")[0].reset(); 
+                               $("#frmAddNewUser").validate().resetForm();
+
+
+                                swal.fire({
+                                    toast:true,
+                                    position:'top-end',
+                                    icon: "success",
+                                    title: "@Localizer["success"]", 
+                                    text: "@Localizer["Info Updated successfully"]",
+                                    timer:2000,
+                                    timerProgressBar:true,
+                                    showConfirmButton:false,
+
+                                });
+                            } else {
+                                swal.fire({
+                                    icon: "warning",
+                                    title: "خطر",  
+                                    text: response.error  
+                                });
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(xhr.responseText);
+                            $("#loader").hide();  
+                            swal.fire({
+                                icon: "error",
+                                title: "تېروتنه", 
+                                text: "Failed to add user. Please try again."
+                            });
+                        }
+                    });
+                }
+                else
+                {
+                    $("#loader").hide();  
+                }
+
+            });
+         });
+   
+    </script>
+}

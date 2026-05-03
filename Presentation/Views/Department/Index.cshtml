@@ -1,0 +1,189 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization;
+@inject IViewLocalizer Localizer;
+@section JQueryDatatable
+{
+   
+    <link href="~/assets\plugins\custom\datatables\datatables.bundle.rtl.css" rel="stylesheet" />
+}
+<div class="subheader py-2 py-lg-6 subheader-solid hidden-print mb-0" id="kt_subheader">
+    <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+        <!--begin::Info-->
+        <div class="d-flex align-items-center flex-wrap mr-2">
+            @Localizer["New Department"]
+            <button id="NewRole" class="btn btn-primary font-weight-bolder btn-sm mr-2"><i class="fa fa-plus"></i></button>
+        </div>
+        <!--end::Info-->
+        <div class="d-flex align-items-between flex-wrap">
+            <div>
+                <a href="/Home/Index" class="btn btn-primary font-weight-bolder btn-sm mr-2">@Localizer["To Main Page"]</a>
+                <a href="/Home/Index" class="btn btn-primary font-weight-bolder btn-sm"><span class="fa fa-arrow-left"></span></a>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+<div class="card">
+ 
+    <table id="departmentTable" class="table table-striped table-hover  text-start" style="width:100%">
+      <thead>
+          <tr>
+            <th>@Localizer["NO"]</th>
+            <th>@Localizer["Name"]</th>
+            <th>@Localizer["Action"]</th>
+          </tr>
+      </thead>
+      <tbody>
+
+      </tbody>
+  </table>
+
+</div>
+<div class="modal fade" id="AddDepartmentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">@Localizer["Add Department"]</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="AddDepartment">
+                <div class="modal-body">
+
+                    <div class="col-md-12">
+                        <fieldset>
+                            <input type="hidden" id="EditDepartmentId" name="DepartmentId" />
+                            <label>@Localizer["Department Name"]</label>
+                            <input type="text" class="form-control" id="AddName" name="DepartmentName" placeholder="@Localizer["Write Role"]" />
+                        </fieldset>
+                    </div>
+                </div>
+       
+                <div class="modal-footer p-3 d-flex justify-content-between">
+
+                    <button type="button" class="btn btn-primary" id="btnAddDepartment"><span class="fa fa-save"></span></button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><span class="fa fa-times"></span></button>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+@section script
+{
+    <script src="~/assets\plugins\custom\datatables\datatables.bundle.js"></script>
+    <script>
+        $(document).ready(function()
+        {
+            $("#NewRole").click(function()
+            {
+                $("#AddDepartmentModal").modal("show");
+            });
+            
+        })
+        $("#AddDepartment").validate({
+            rules:
+            {
+                DepartmentName:
+                {
+                    required:true
+                }
+
+            },
+            messages:
+            {
+                DepartmentName:
+                {
+                    required:"@Localizer["Department required"]"
+                }
+            }
+        });
+        
+         $("#btnAddDepartment").click(function()
+         {
+                if($("#AddDepartment").valid())
+                {
+                   $.ajax({
+                       url:"/Department/AddDepartment",
+                       type:"POST",
+                       dataType:"JSON",
+                       beforeSend:function()
+                       {
+
+                       },
+                       data:$("#AddDepartment").serialize(),
+                       success:function(res)
+                       {
+                           Swal.fire({
+                               toast:true,
+                               position:"top-end",
+                               icon:"success",
+                               timer:2000,
+                               showConfirmButton:false,
+                           })
+                       },
+                       error:function()
+                       {
+
+                       }
+
+                   })
+                }
+         })
+             
+        //datatable when document ready section 
+        $(document).ready(function()
+        {
+            $("#departmentTable").DataTable({
+                processing:true,
+                serverSide:true,
+                ordering:false,
+                pagingType: "simple_numbers",
+                searching:false,
+                 
+                ajax:
+                {
+                    url:"/Department/GetDepartments",
+                    type:"POST",
+                    dataSrc:function(json)
+                    {
+                        console.log(json);
+                        return json.data;
+                    }
+
+                },
+                columns:
+                [
+                    {data:null,orderable:false,className:"text-center",
+                    render:function(data,type,row,meta)
+                        {
+                       return  meta.row+1+ meta.settings._iDisplayStart;
+                        }
+                    },
+                    
+                    {data:"departmentName",className:"text-center"},
+                    {data:null,ordering:false,className:"text-center",
+                    render:function(data,type,row)
+                    {
+                      return `<div class="dropdown">
+                               <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                  
+                               </button>
+                               <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <a class="dropdown-item" href="#">Action</a>
+                                        <a class="dropdown-item" href="#">Another action</a>
+                                        <a class="dropdown-item" href="#">Something else here</a>
+                                   </div>
+                                </div>`;
+                                                }
+                    },
+                ],
+                   
+            });
+        });
+
+    </script>
+}

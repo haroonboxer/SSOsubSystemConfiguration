@@ -1,0 +1,303 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Action Related To Allegation" xml:space="preserve">
+    <value>د معلومات سره اړوند اقدامات</value>
+  </data>
+  <data name="Action Title" xml:space="preserve">
+    <value>د اقدام سرلیک</value>
+  </data>
+  <data name="Actions Discription" xml:space="preserve">
+    <value>د اقداماتو تشریح</value>
+  </data>
+  <data name="Actions Recarding Allegation" xml:space="preserve">
+    <value>د معلومات په اړه اقدامات</value>
+  </data>
+  <data name="Actions Related To The Allegation" xml:space="preserve">
+    <value>د معلومات سره اړوند اقدامات</value>
+  </data>
+  <data name="Add Actions Related To Case" xml:space="preserve">
+    <value>دی معلومات اړونده اقدامات ثبت کړی</value>
+  </data>
+  <data name="Add Allegation" xml:space="preserve">
+    <value>معلوماتت اضافه کړی</value>
+  </data>
+  <data name="Add Allegation to Officer" xml:space="preserve">
+    <value>معلومات اضافه کړی </value>
+  </data>
+  <data name="Add Analysis and Comments" xml:space="preserve">
+    <value>تحلیل او ارزیابی اضافه کول</value>
+  </data>
+  <data name="Add Evedance" xml:space="preserve">
+    <value>شواهد ثبت کړی</value>
+  </data>
+  <data name="Add Evedance Of allegation" xml:space="preserve">
+    <value>دی معلومات شواهد ثبت کړی</value>
+  </data>
+  <data name="Add Evidence Of Allegation" xml:space="preserve">
+    <value>د معلومات شواهد اضافه کړئ</value>
+  </data>
+  <data name="Add Instruction" xml:space="preserve">
+    <value>لارښود اضافه کړئ</value>
+  </data>
+  <data name="allegation" xml:space="preserve">
+    <value>ادعا</value>
+  </data>
+  <data name="Allegation Date" xml:space="preserve">
+    <value>د معلومات نیټه</value>
+  </data>
+  <data name="Allegation Date is required" xml:space="preserve">
+    <value>د معلومات نیټه لازمي ده</value>
+  </data>
+  <data name="Allegation Description" xml:space="preserve">
+    <value>توضیحات معلومات</value>
+  </data>
+  <data name="Allegation Description is required" xml:space="preserve">
+    <value>د معلومات تفصیل لازمي دی</value>
+  </data>
+  <data name="Allegation Detail" xml:space="preserve">
+    <value>جزیات</value>
+  </data>
+  <data name="Allegation Discription" xml:space="preserve">
+    <value>توضیحات</value>
+  </data>
+  <data name="Allegation Title" xml:space="preserve">
+    <value>د معلومات عنوان</value>
+  </data>
+  <data name="Allegation Title is required" xml:space="preserve">
+    <value>د معلومات عنوان لازمي دی</value>
+  </data>
+  <data name="Allegation Type" xml:space="preserve">
+    <value>د معلومات ډول</value>
+  </data>
+  <data name="Allegation Type is required" xml:space="preserve">
+    <value>د معلومات ډول لازمي دی</value>
+  </data>
+  <data name="Allegations Overview" xml:space="preserve">
+    <value>د معلومات لنډیز</value>
+  </data>
+  <data name="Analysis And comments" xml:space="preserve">
+    <value>تحلیل او نظریات</value>
+  </data>
+  <data name="Analysis Discription" xml:space="preserve">
+    <value>د تحلیل تشریح</value>
+  </data>
+  <data name="Analysis Title" xml:space="preserve">
+    <value>د تحلیل سرلیک</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>بندول</value>
+  </data>
+  <data name="Confidential" xml:space="preserve">
+    <value>محرم</value>
+  </data>
+  <data name="Curreption Type" xml:space="preserve">
+    <value>فساد دول</value>
+  </data>
+  <data name="Curreption Type is required" xml:space="preserve">
+    <value>فساد دول ضرور دی</value>
+  </data>
+  <data name="Curruption Type" xml:space="preserve">
+    <value>فساد دول</value>
+  </data>
+  <data name="Edit Action Related To Allegation" xml:space="preserve">
+    <value>د اقداماتو بیه رغونه</value>
+  </data>
+  <data name="Edit Actions Related To Allegation" xml:space="preserve">
+    <value>د معلومات سره اړوند اقدامات سمول</value>
+  </data>
+  <data name="Edit Allegation" xml:space="preserve">
+    <value>دی معلومات بیه رغونه</value>
+  </data>
+  <data name="Edit Analysis And Comments" xml:space="preserve">
+    <value>د تحلیل او نظریاتو سمول</value>
+  </data>
+  <data name="Edit Evedance" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Edit Evedence" xml:space="preserve">
+    <value>شواهد سمول</value>
+  </data>
+  <data name="Edit Instruction" xml:space="preserve">
+    <value>لارښود سمول</value>
+  </data>
+  <data name="Eidit Allegation" xml:space="preserve">
+    <value>معلومات بیه رغونه</value>
+  </data>
+  <data name="Evedance And Document" xml:space="preserve">
+    <value>شواهد او اسناد</value>
+  </data>
+  <data name="File Browser" xml:space="preserve">
+    <value>د فایل مرورګر</value>
+  </data>
+  <data name="Highly Confidential" xml:space="preserve">
+    <value>اشد محرم</value>
+  </data>
+  <data name="Instruction Discription" xml:space="preserve">
+    <value>د لارښود تشریح</value>
+  </data>
+  <data name="Intruction Title" xml:space="preserve">
+    <value>د لارښود سرلیک</value>
+  </data>
+  <data name="Negative" xml:space="preserve">
+    <value>منفی</value>
+  </data>
+  <data name="Normal" xml:space="preserve">
+    <value>عادی</value>
+  </data>
+  <data name="Positive" xml:space="preserve">
+    <value>مثبت</value>
+  </data>
+  <data name="Privacy is required" xml:space="preserve">
+    <value>محرمیت لازمي دی</value>
+  </data>
+  <data name="Privacy Limit" xml:space="preserve">
+    <value>د محرمیت محدودیت</value>
+  </data>
+  <data name="Province" xml:space="preserve">
+    <value>ولایت</value>
+  </data>
+  <data name="Related Authoreties Instractions" xml:space="preserve">
+    <value>د اړوندو ادارو لارښودونه</value>
+  </data>
+  <data name="Related Authorities Instraction" xml:space="preserve">
+    <value>دی مربوطه ادراری لارښونه ثبت کړی</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>ثبت</value>
+  </data>
+  <data name="Select Alegation Type" xml:space="preserve">
+    <value>د معلومات نوع تکال</value>
+  </data>
+  <data name="Select Curreption" xml:space="preserve">
+    <value>فساد وتاکی</value>
+  </data>
+  <data name="Select Curruption" xml:space="preserve">
+    <value>فساد وتاکی</value>
+  </data>
+  <data name="Select Privacy Limit" xml:space="preserve">
+    <value>محرمیت حد وتاکی</value>
+  </data>
+  <data name="Select Province" xml:space="preserve">
+    <value>ولایت وتاکی</value>
+  </data>
+  <data name="To Main Page" xml:space="preserve">
+    <value>اصلی پانه </value>
+  </data>
+</root>

@@ -1,0 +1,291 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Action" xml:space="preserve">
+    <value>عمل</value>
+  </data>
+  <data name="Active" xml:space="preserve">
+    <value>فعال کړی</value>
+  </data>
+  <data name="Add User" xml:space="preserve">
+    <value>کارونکی اضافه کړئ</value>
+  </data>
+  <data name="at least 10 words" xml:space="preserve">
+    <value>پټنوم باید لږ تر لږه ۱۰ توري ولري</value>
+  </data>
+  <data name="Change Pass" xml:space="preserve">
+    <value>د پټ نوم بدلول</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>بندول</value>
+  </data>
+  <data name="Complix Password" xml:space="preserve">
+    <value>پټنوم باید لږ تر لږه ۱۰ توري ولري او پکې لوی توري، واړه توري، شمېرې او ځانګړی نښه شامل وي</value>
+  </data>
+  <data name="Confirm Password" xml:space="preserve">
+    <value>پت نوم تایید</value>
+  </data>
+  <data name="confirm password is required" xml:space="preserve">
+    <value>د پټ نوم تایید اړین دی</value>
+  </data>
+  <data name="De Activate" xml:space="preserve">
+    <value>غیر فعال کړئ</value>
+  </data>
+  <data name="dep is required" xml:space="preserve">
+    <value>ډیپارټمنټ اړین دی</value>
+  </data>
+  <data name="Department" xml:space="preserve">
+    <value>دیپارتمنت</value>
+  </data>
+  <data name="Display" xml:space="preserve">
+    <value>ښودل</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>بیه رغونه</value>
+  </data>
+  <data name="Edit password" xml:space="preserve">
+    <value>پت نوم تغیر</value>
+  </data>
+  <data name="Edit Role" xml:space="preserve">
+    <value>صلاحیت بدلول</value>
+  </data>
+  <data name="Edit User" xml:space="preserve">
+    <value>کارونکی بیه رغونه </value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>ایمیل</value>
+  </data>
+  <data name="enter valid email" xml:space="preserve">
+    <value>مهرباني وکړئ یو معتبر ایمیل پته داخل کړئ.</value>
+  </data>
+  <data name="haroon Local Lang Name" xml:space="preserve">
+    <value>  په محلي ژبې نوم</value>
+  </data>
+  <data name="Info is not updated" xml:space="preserve">
+    <value>معلومات تغییر نشوه</value>
+  </data>
+  <data name="Info updated successfully" xml:space="preserve">
+    <value>معلومات په بریالیتوب تغییر شوه</value>
+  </data>
+  <data name="Loading" xml:space="preserve">
+    <value>چمتو کېږي…</value>
+  </data>
+  <data name="Local Lang Name" xml:space="preserve">
+    <value>نوم په ملی ژپه </value>
+  </data>
+  <data name="Local name is required" xml:space="preserve">
+    <value>محلي نوم اړین دی</value>
+  </data>
+  <data name="Main page" xml:space="preserve">
+    <value>اصلی پانه</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>بل</value>
+  </data>
+  <data name="No data available" xml:space="preserve">
+    <value>هیڅ معلومات شتون نه لري</value>
+  </data>
+  <data name="No matching records found" xml:space="preserve">
+    <value>هیڅ سمون لرونکي ریکارډونه ونه موندل شول</value>
+  </data>
+  <data name="not same" xml:space="preserve">
+    <value>پت نوم او پت نوم تایید یو شان ندی</value>
+  </data>
+  <data name="of" xml:space="preserve">
+    <value>له</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>پټ نوم اړین دی</value>
+  </data>
+  <data name="Password change" xml:space="preserve">
+    <value>پټ نوم تغییر شو</value>
+  </data>
+  <data name="password is required" xml:space="preserve">
+    <value>پت نوم اړین دی</value>
+  </data>
+  <data name="Phone Number" xml:space="preserve">
+    <value>تلیفون شمیره</value>
+  </data>
+  <data name="phone number is required" xml:space="preserve">
+    <value>تلیفون شمیره اړینه ده</value>
+  </data>
+  <data name="Previous" xml:space="preserve">
+    <value>مخکینی</value>
+  </data>
+  <data name="Processing" xml:space="preserve">
+    <value>پروسس</value>
+  </data>
+  <data name="Rank" xml:space="preserve">
+    <value>رتبه</value>
+  </data>
+  <data name="rank is required" xml:space="preserve">
+    <value>رتبه اړین ده</value>
+  </data>
+  <data name="records" xml:space="preserve">
+    <value>  ریکارډونه</value>
+  </data>
+  <data name="Role" xml:space="preserve">
+    <value>  صلاحتونه</value>
+  </data>
+  <data name="Role Change" xml:space="preserve">
+    <value>صلاحیت تغییر شوه</value>
+  </data>
+  <data name="role is required" xml:space="preserve">
+    <value>صلاحیت اړین دی</value>
+  </data>
+  <data name="save" xml:space="preserve">
+    <value>خوندي کړئ</value>
+  </data>
+  <data name="select" xml:space="preserve">
+    <value>انتخاب</value>
+  </data>
+  <data name="Showing" xml:space="preserve">
+    <value>ښودل</value>
+  </data>
+  <data name="success" xml:space="preserve">
+    <value>بریا</value>
+  </data>
+  <data name="to" xml:space="preserve">
+    <value>تر</value>
+  </data>
+  <data name="User Activated" xml:space="preserve">
+    <value>کارونکی فعال شو</value>
+  </data>
+  <data name="User DeActivated" xml:space="preserve">
+    <value>کارونکی غیر فعال شو</value>
+  </data>
+  <data name="User Department" xml:space="preserve">
+    <value>کارونکی نوم</value>
+  </data>
+  <data name="user name is required" xml:space="preserve">
+    <value>کاورنکی نوم اړین دی</value>
+  </data>
+  <data name="User Rank" xml:space="preserve">
+    <value>کارونکی ربته</value>
+  </data>
+  <data name="User Role" xml:space="preserve">
+    <value>کاورنکی صلاحیت</value>
+  </data>
+  <data name="UserName" xml:space="preserve">
+    <value>کارونکی نوم</value>
+  </data>
+  <data name="write" xml:space="preserve">
+    <value>ولیکی</value>
+  </data>
+</root>

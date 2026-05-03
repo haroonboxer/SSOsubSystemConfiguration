@@ -1,0 +1,194 @@
+﻿ 
+@using Microsoft.AspNetCore.Mvc.Localization;
+@inject IViewLocalizer Localizer
+ 
+@{
+    Layout = null;
+    ViewData["Title"] = "Login";
+}
+<style>
+    .card {
+        background-color: rgba(255, 255, 255, 0.15) !important; /* semi-transparent white */
+        backdrop-filter: blur(10px); /* glass effect */
+        border: 1px solid rgba(255, 255, 255, 0.25); /* soft border */
+        border-radius: 15px; /* rounded corners */
+    }
+
+</style>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@ViewData["Title"] JMS </title>
+
+    
+
+
+
+    <link href="~/css/adminlte.css" rel="stylesheet" />
+    <style>
+        .login-page {
+            background-image: url('src/MOI.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<div class="login-page bg-body-secondary" >
+    <div class="login-box">
+        <div class="container d-flex justify-content-center align-items-center min-vh-100">
+            <div class="card card-outline card-primary shadow" style="width: 100%; max-width: 420px;">
+
+                <!-- Card Header -->
+                <div class="card-header bg-white text-center">
+                    <img src="~/src/0 moi_logo.png" alt="MOI Logo" class="img-fluid" style="max-height: 130px;" />
+                </div>
+
+                <!-- Card Body -->
+                <div class="card-body login-card-body">
+
+                    <p class="text-center fs-5 mb-4 text-secondary m-0">ته @Localizer["Welcome"]</p>
+                    @if(ViewBag.InActiveData!=null)
+                    {
+                    <h4 class="text-danger">@Localizer[ViewBag.InActiveData]</h4>
+                    }
+                    @if (ViewBag.IncorrectUserName !=null)
+                    {
+                        <h4 class="text-danger">@Localizer[ViewBag.IncorrectUserName]</h4>
+                    }
+              
+                    <form id="frmLogin" asp-controller="Account"asp-action="Login" method="post">
+                        <div class="mb-3">
+                            <div class="form-floating">
+                                <!-- Input must come first for floating labels -->
+                                <input name="Name" id="Name" class="form-control" placeholder="@Localizer["UserName"]" required />
+                                <label for="Name">@Localizer["Name"]</label>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="form-floating">
+                                <!-- Changed type to "password" -->
+                                <input type="password" name="Password" id="Password" class="form-control" placeholder="@Localizer["Password"]" required />
+                                <label for="Password">@Localizer["Password"]</label>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="form-check">
+                                <input type="checkbox"
+                                       class="form-check-input"
+                                       id="RememberMe"
+                                       name="RememberMe" />
+                                <label class="form-check-label" for="RememberMe">
+                                    @Localizer["Remember Me"]
+                                </label>
+                            </div>
+                        </div>
+
+
+                        <div class="d-grid">
+                            <button type="submit" id="login" class="btn btn-outline-primary">@Localizer["Sign In"]</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+  
+
+
+
+<script src="~/jquery-3.7.0.min.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>
+    <script>
+            $(document).ready(function(){
+                // $("#frmLogin").validate({
+                //     rules:
+                //     {
+                //         Name:
+                //         {
+                //             required:true,
+                //         },
+                //         Password:
+                //         {
+                //             required:true,
+                //         },
+                //     },
+                //     messages:
+                //     {
+                //          Name:
+                //         {
+                //             required:"@Localizer["Name required"]",
+                //         },
+                //         Password:
+                //         {
+                //             required:"@Localizer["Password required"]",
+                //         },
+                //     }
+                // });
+                    // $("#login").click(function()
+                    // {
+                    //     if($("#frmLogin").valid())
+                    //     {
+                    //         $.ajax({
+                    //             url:"Login",
+                    //             type:"POST",
+                    //             dataType:"JSON",
+                    //             data:$("#frmLogin").serialize(),
+                    //             success:function(res)
+                    //             {
+                    //                 if(res.success==true)
+                    //                 {
+                    //                     console.log(res);
+                    //                 }
+                    //             },
+                    //             error:function()
+                    //             {
+                    //                 swal.fire({
+                    //                     toast:true,
+                    //                     icon:"worning",
+                    //                     title:"@Localizer["Warning"]",
+                    //                     text:"@Localizer["uncorrect Infomation"]",
+                    //                     timer:2000,
+                    //                     timerProgressBar:true,
+                    //                     position:"top-right",
+
+                    //                 });
+                    //             },
+                    //         });
+                    //     }
+                    // });
+            });
+    </script>
+    <script>
+        const SELECTOR_SIDEBAR_WRAPPER = '.sidebar-wrapper';
+        const Default = {
+          scrollbarTheme: 'os-theme-light',
+          scrollbarAutoHide: 'leave',
+          scrollbarClickScroll: true,
+        };
+        
+        document.addEventListener('DOMContentLoaded', function () {
+          const sidebarWrapper = document.querySelector(SELECTOR_SIDEBAR_WRAPPER);
+          if (sidebarWrapper && typeof OverlayScrollbarsGlobal?.OverlayScrollbars !== 'undefined') {
+            OverlayScrollbarsGlobal.OverlayScrollbars(sidebarWrapper, {
+              scrollbars: {
+                theme: Default.scrollbarTheme,
+                autoHide: Default.scrollbarAutoHide,
+                clickScroll: Default.scrollbarClickScroll,
+              },
+            });
+          }
+        });
+   
+    </script>
+ 
+     
+
