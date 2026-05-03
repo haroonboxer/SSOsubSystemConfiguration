@@ -3,6 +3,7 @@ using Application.Features.AccountFeatures.Account.Query;
 using Application.Features.Department.Command;
 using Application.Features.Department.Query;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Presentation.Controllers
@@ -14,6 +15,7 @@ namespace Presentation.Controllers
         {
          _mediator = mediator;
         }
+        [Authorize(Policy ="Add User")]
         public IActionResult Index()
         {
             return View();

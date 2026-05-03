@@ -12,11 +12,12 @@ namespace Presentation.Controllers
         {
             _logger = logger;
         }
-        [Authorize]
+        [Authorize (Policy = "Authentication Management")]
         public IActionResult Index()
         {
-            var isAuth = User.Identity.IsAuthenticated.ToString();
-            var cookies = Request.Cookies;
+            var isAuth = User.Identity?.IsAuthenticated;
+            var authType = User.Identity?.AuthenticationType;
+            var claims = User.Claims.ToList();
             _logger.LogInformation("User is logged to the Index of home controler");
             return View();
         }

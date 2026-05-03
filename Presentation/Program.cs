@@ -40,7 +40,52 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     };
 });
 
-builder.Services.AddAuthorization();
+//builder.Services.AddAuthorization(options =>
+//{
+//    options.AddPolicy("Authentication Management", policy =>
+//        policy.RequireClaim("Authentication Management", "true"));
+
+//    options.AddPolicy("Add User", policy =>
+//        policy.RequireClaim("Add User", "true"));
+
+//    options.AddPolicy("Edit User", policy =>
+//        policy.RequireClaim("Edit User", "true"));
+
+//    options.AddPolicy("User Activation", policy =>
+//        policy.RequireClaim("User Activation", "true"));
+
+//    options.AddPolicy("Add Role", policy =>
+//        policy.RequireClaim("Add Role", "true"));
+
+//    options.AddPolicy("Edit Role", policy =>
+//        policy.RequireClaim("Edit Role", "true"));
+
+//    options.AddPolicy("Role Management", policy =>
+//        policy.RequireClaim("Role Management", "true"));
+//});
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("Authentication Management", policy =>
+        policy.RequireClaim("Permission", "Authentication Management"));
+
+    options.AddPolicy("Add User", policy =>
+        policy.RequireClaim("Permission", "Add User"));
+
+    options.AddPolicy("Edit User", policy =>
+        policy.RequireClaim("Permission", "Edit User"));
+
+    options.AddPolicy("User Activation", policy =>
+        policy.RequireClaim("Permission", "User Activation"));
+
+    options.AddPolicy("Add Role", policy =>
+        policy.RequireClaim("Permission", "Add Role"));
+
+    options.AddPolicy("Edit Role", policy =>
+        policy.RequireClaim("Permission", "Edit Role"));
+
+    options.AddPolicy("Role Management", policy =>
+        policy.RequireClaim("Permission", "Role Management"));
+});
 // Add localization services
 builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
  
@@ -100,6 +145,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Account}/{action=Logins}/{id?}");
+    pattern: "{controller=Account}/{action=LoginThrowAPI}/{id?}");
 //app.MapGet("/",()=>"Hello world");
 app.Run();

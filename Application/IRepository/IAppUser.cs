@@ -11,22 +11,11 @@ namespace Application.IRepository
 {
     public interface IAppUser
     {
-        public Task<string> Login(Logindto dto);
-        public Task<string> RegisterUser(RegisterationCommand dto);
-        public Task<string> Logout();
-        public Task<List<LoadRankdto>> LoadRank();
-        public  Task<List<Roledtos>> LoadRoles();
-        public Task<List<Departmentdto>> LoadDepartment();
-        public Task<string> AddRole(Roledtos dto);
-        public Task<string> EditRole(ChangeUserRoleCommand modal);
-        public Task<string> AddDepartment(Departmentdto dto);
-        public Task<LoadUserdto> LoadUser(string startp,string lengthp);
-        public Task<string> EditAppUser(EditCommand command);
-        public Task<GetUserdto> Getuser(string userid);
-        public  Task<RolesDetailDto> LoadRoleClaims(string roleId);
-        public Task<string> AddClaimsToRole(string Roleid, List<string> selectedPermission);
-        public Task<string> ActivateDeActivatedUser(string Userid, bool Activation);
-        public Task<string> ChangePassword(ChangePasswordCommand request);
+         public Task<string> Logout();
+         public Task<List<Departmentdto>> LoadDepartment();
+         public Task<string> AddDepartment(Departmentdto dto);
+ 
+ 
 
 
 

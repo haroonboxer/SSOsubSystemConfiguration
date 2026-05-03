@@ -34,43 +34,7 @@ namespace Presentation.Controllers
             
             return View();
         }
-        [HttpGet]
-        public IActionResult Logins()
-        {
-
-            if (TempData["InActiveUser"] != null)
-                ViewBag.InActiveData = TempData["InActiveUser"];
-
-            if (TempData["IncorrectUserName"] != null)
-                ViewBag.IncorrectUserName = TempData["IncorrectUserName"];
-
-            return View();
-        }
-        [HttpGet]
-        public async Task<IActionResult> Login(string Name, string Password)
-        {
-            var Command = new LoginCommand
-            {
-                Name = Name,
-                Password = Password
-            };
-            var Result = await _madiat.Send(Command);
-            if (Result == "User Authentitcation is true")
-            {
-                return RedirectToAction("Index", "Home");
-            }
-            else if (Result == "User is Not Active")
-            {
-                TempData["InActiveUser"] = Result;
-                return RedirectToAction("Login", "Account");
-            }
-            else
-            {
-                TempData["IncorrectUserName"] = Result;
-                return RedirectToAction("Login", "Account");
-            }
-
-        }
+    
         [HttpPost]
         public async Task<IActionResult> Logout()
         {
@@ -87,11 +51,19 @@ namespace Presentation.Controllers
             }
 
         }
-        [HttpGet]
+
         public async Task<IActionResult> LoginThrowAPI(string token)
         {
             if (string.IsNullOrEmpty(token))
-                return Unauthorized("Token is missing");
+            {
+                var ssoLoginUrl = "https://localhost:7161/"; // your SSO
+
+                var returnUrl = Uri.EscapeDataString(
+                    $"{Request.Scheme}://{Request.Host}{Request.Path}"
+                );
+
+                return Redirect($"{ssoLoginUrl}?redirectUrl={returnUrl}");
+            }
 
             var key = Encoding.UTF8.GetBytes("Policy-Management-Secrete-Key-2026");
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -118,15 +90,23 @@ namespace Presentation.Controllers
                 if (identity == null)
                     return Unauthorized("Invalid identity");
 
-                // Create cookie identity
+                // ✅ NEW COOKIE IDENTITY
                 var claimsIdentity = new ClaimsIdentity(
-                    identity.Claims,
-                    CookieAuthenticationDefaults.AuthenticationScheme,
-                    ClaimTypes.Name,
-                    ClaimTypes.Role
+                    CookieAuthenticationDefaults.AuthenticationScheme
                 );
 
-                // Handle roles if JSON
+                // -----------------------------
+                // 1. Copy basic claims safely
+                // -----------------------------
+                foreach (var claim in identity.Claims)
+                {
+                    if (claim.Type == ClaimTypes.Name)
+                        claimsIdentity.AddClaim(claim);
+                }
+
+                // -----------------------------
+                // 2. Roles
+                // -----------------------------
                 var roleJson = identity.FindFirst("Role")?.Value;
 
                 if (!string.IsNullOrEmpty(roleJson))
@@ -139,6 +119,29 @@ namespace Presentation.Controllers
                     }
                 }
 
+                // -----------------------------
+                // 3. Permissions (FIXED PART)
+                // -----------------------------
+                var roleClaimsJson = identity.FindFirst("role_claims")?.Value;
+
+                if (!string.IsNullOrEmpty(roleClaimsJson))
+                {
+                    var roleClaims = JsonSerializer.Deserialize<List<RoleClaimDto>>(roleClaimsJson);
+
+                    foreach (var claim in roleClaims)
+                    {
+                        if (claim.ClaimValue?.ToString().ToLower() == "true")
+                        {
+                            claimsIdentity.AddClaim(
+                                new Claim("Permission", claim.ClaimType.Trim())
+                            );
+                        }
+                    }
+                }
+
+                // -----------------------------
+                // 4. Sign in
+                // -----------------------------
                 var principalToSign = new ClaimsPrincipal(claimsIdentity);
 
                 await HttpContext.SignInAsync(
@@ -157,205 +160,12 @@ namespace Presentation.Controllers
                 return Unauthorized("Invalid token");
             }
         }
-        [HttpPost]
-        [Authorize]
-        public async Task<JsonResult> RegisternewUser(RegisterUsertdo dto)
-        {
-            var RegisterNewUser = new RegisterationCommand
-            { 
-                LocalName = dto.LocalName,
-                Name = dto.Name,
-                DepartmentId = dto.DepartmentId,
-                Password = dto.Password,
-                PhoneNumber = dto.PhoneNumber,
-                RankId = dto.RankId ,
-                RoleId = dto.RoleId,
-                Email = dto.Email,
-            };
-            var data =await _madiat.Send(RegisterNewUser);
 
-            return Json(new {success=true });
-        }
-        [HttpGet]
-        [Authorize]
-        public async Task<IActionResult> UserList()
-        {
-            var query = new RankQuery
-            {
-            };
-
-            ViewBag.Ranks = await _madiat.Send(query);
-            var RoleQuery = new RolesQuries
-            {
-
-            };
-            ViewBag.Role = await _madiat.Send(RoleQuery);
-            var DepartmentQuery = new DepartmentQuery
-            {
-            };
-            ViewBag.Department = await _madiat.Send(DepartmentQuery);
-            return View();
-        }
-        [Authorize]
-        public async Task<IActionResult> Roles()
-        {
-            var GetRole = new RolesQuries
-            {
-
-            };
-            var Result =await _madiat.Send(GetRole);
-            ViewBag.Role = Result;
-            return View();
-        }
-        [Authorize]
-        public async  Task<JsonResult> AddRole(Roledtos dto)
-        {
-            var NewRole = new AddRoleCommand
-            { 
-                
-                RoleName = dto.RoleName
-            };
-            var data =await _madiat.Send(NewRole);
-
-            return Json(new { success=true});
-        }
-        [Authorize]
-        public async Task<JsonResult> LoadRoles()
-        {
-            var GetRole = new RolesQuries
-            {
-
-            };
-            var Result = await _madiat.Send(GetRole);
-            return Json(Result);
-        }
-        [Authorize]
-        [HttpPost]
-        public async Task<JsonResult> ChangeUserRole(ChangeUserRoledto dto)
-        {
-            var Command = new ChangeUserRoleCommand
-            {
-                RoleId = dto.RoleId,
-                UserId = dto.UserId
-                 
-            };
-            var Result = await _madiat.Send(Command);
-            return Json(Result);
-        }
-        [HttpGet]
-        [Authorize]
-        public async Task<IActionResult> RoleDetail(string RoleId)
-        {
-            var query = new RoleDetailQuery
-            {
-                RoleId = RoleId
-            };
-            var Data = await _madiat.Send(query);
-          
-            return View(Data);
-        }
-        [HttpPost]
-        [Authorize]
-        public async Task<IActionResult> AddOrRemovePermissionToRole(string RoleId,List<string> selectedPermissions)
-        {
-            var command = new ClaimsCommand
-            {
-                RoleId=RoleId,
-                selectedPermissions = selectedPermissions
-            };
-            var response = await _madiat.Send(command); 
-            return RedirectToAction("RoleDetail", new { RoleId = RoleId });
-        }
-        //User Functionalities started
-        [HttpPost]
-        [Authorize]
-        public async Task<JsonResult> LoadUser()
-        {
-            var draw = Request.Form["draw"].FirstOrDefault();
-            var start = Request.Form["start"].FirstOrDefault();
-            var length = Request.Form["length"].FirstOrDefault();
-            int pageSize = length != null ? Convert.ToInt32(length):0;
-           // int skip = start != null ? Convert.ToInt32(start) : 0;
-
-            var command = new LoadUserCommand
-            { 
-          
-            startp  =start,
-            lengthp = length,
-            
-            };
-            var data = await _madiat.Send(command);
-
-          
-            var obj = new 
-            {
-                draw = draw,
-                recordsFiltered = data.recordsFiltered,
-                recordsTotal =  data.recordsTotal,
-                data = data.data,
-            };
-            return Json(obj);
-        }
-        [HttpGet]
-        [Authorize]
-        public async Task<JsonResult> Getuser(string UserId)
-        {
-            var query  =new  GetUserQuery{
-                UserId = UserId
-            };
-            var data =await _madiat.Send(query);
-            return Json(data);
-        }
-        [HttpPost]
-        [Authorize]
-        public async Task<JsonResult> UpdateUser(RegisterUsertdo dto)
-        {
-            var Command = new EditCommand
-            {
-                DepartmentId = dto.DepartmentId,
-                Email = dto.Email,
-                Id = dto.Id,
-                LocalName = dto.LocalName,
-                Name = dto.Name,
-                PhoneNumber = dto.PhoneNumber,
-                RankId = dto.RankId,
-            };
       
-
-        
-            var FinalResult = await _madiat.Send(Command);
-
-            return Json(new{ message = FinalResult });
-        }
-        [HttpPost]
-        [Authorize]
-        public async Task<JsonResult> ActivateDeActivatedUser(string UserId,bool Activation)
-        {
-           
-            var command = new UserActivationCommand
-            { 
-            UserId = UserId,
-            IsActive = Activation
-            };
-            var Result = await _madiat.Send(command);
-            
-            return Json(Result);
-        }
-  
-        [HttpPost]
-        [Authorize]
-        public async Task<JsonResult> ChangePassword(ChangePassworddto request)
-        {
-            var command = new ChangePasswordCommand
-            {
-                UserId = request.UserId,
-                password = request.password,
-                confirmPassword = request.confirmPassword,
-            };
-            var result = await _madiat.Send(command);
-
-            return Json(result);
-        }
+    
+   
+       
+       
       
      
     }
