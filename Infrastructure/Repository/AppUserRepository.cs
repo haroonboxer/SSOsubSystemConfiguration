@@ -21,14 +21,11 @@ namespace Infrastructure.Repository
  
         private readonly IHttpContextAccessor _httpContext;
 
-        public AppUserRepository(
-  
-            IHttpContextAccessor httpContext
-
-        )
+        public AppUserRepository(IHttpContextAccessor httpContext,AppDbContext db)
         {
           
             _httpContext = httpContext;
+            _db = db;
         }
      
       
@@ -55,13 +52,16 @@ namespace Infrastructure.Repository
         
         public async Task<string> AddDepartment(Departmentdto dto)
         {
+            
             var data = new Department
             {
                 DepartmentId = Guid.NewGuid().ToString(),
                 DepartmentName = dto.DepartmentName,
+                AddedBy = dto.AddedBy
+
             };
-            _db.Departments.Add(data);
-            var result = _db.SaveChanges();
+            _db.Departments.AddAsync(data);
+            var result = await _db.SaveChangesAsync();
             return "Info added successfuly";
         }
 
@@ -95,53 +95,7 @@ namespace Infrastructure.Repository
                 data = UserData
             };
         }
-        //public async Task<string> ActivateDeActivatedUser( string Userid,bool Activation)
-        // {
-        //    var data =await _db.appUsers.Where(i => i.Id == Userid).FirstOrDefaultAsync();
-        //    if(data !=null)
-        //    {
-        //        if(data.Active == true)
-        //        {
-        //            data.Active = false;
-        //           await _userManager.UpdateAsync(data);
-        //           await _db.SaveChangesAsync();
-        //            return "User is De Activated";
-        //        }
-        //        else
-        //        {
-        //            data.Active = true;
-        //          await  _userManager.UpdateAsync(data);
-        //           await _db.SaveChangesAsync();
-        //            return "User is Activated";
-        //        }
-        //    }
-        //    return "User Not Found";
-        //}
-        //public async Task<string> ChangePassword(ChangePasswordCommand request)
-        //{
-        //    var user =await _userManager.FindByIdAsync(request.UserId);
-        //    if (user != null)
-        //    {
-        //        var token = await _userManager.GeneratePasswordResetTokenAsync(user);
-        //        var result = await _userManager.ResetPasswordAsync(user, token, request.password);
-
-               
-        //        if (result.Succeeded)
-        //        {
-        //            // THIS is where your issue actually is
-        //            return "password changed successfully";
-        //        }
-        //        return string.Join(" | ", result.Errors.Select(e => e.Description));
-                
-        //    }
-        //    else
-        //    {
-        //        return "user not found";
-        //    }
-
-
-
-        //}
+ 
 
 
       

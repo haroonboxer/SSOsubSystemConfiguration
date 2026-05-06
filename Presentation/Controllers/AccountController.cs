@@ -138,7 +138,12 @@ namespace Presentation.Controllers
                         }
                     }
                 }
+                var userId = identity.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
+                if (!string.IsNullOrEmpty(userId))
+                {
+                    claimsIdentity.AddClaim(new Claim(ClaimTypes.NameIdentifier, userId));
+                }
                 // -----------------------------
                 // 4. Sign in
                 // -----------------------------

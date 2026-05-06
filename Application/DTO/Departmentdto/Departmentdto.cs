@@ -10,5 +10,6 @@ namespace Application.DTO.Departmentdto
     {
         public string DepartmentId { get; set; }
         public string DepartmentName { get; set; }
+        public string AddedBy { get; set; }
     }
 }

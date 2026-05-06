@@ -13,7 +13,7 @@ namespace Infrastructure.Data.Seeder
         public static void Seed(ModelBuilder Build)
         {
             Build.Entity<Department>().HasData(
-            new Department { DepartmentId = "1", DepartmentName = "ریاست مخابره" }
+            new Department { DepartmentId = "1", DepartmentName = "ریاست مخابره",AddedBy= "8498d607-189d-456b-a5ef-7833734fac92",EditBy= "8498d607-189d-456b-a5ef-7833734fac92" }
             );
         }
     }

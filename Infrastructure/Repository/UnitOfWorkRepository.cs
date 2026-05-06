@@ -31,7 +31,7 @@ namespace Infrastructure.Repository
             // add all Repositories Dependencies here 
 
             Departments = new DepartmentRepository(_db);
-            Account = new AppUserRepository( _httpContext);
+            Account = new AppUserRepository( _httpContext,_db);
             sells = new Sells(_db);
         }
 

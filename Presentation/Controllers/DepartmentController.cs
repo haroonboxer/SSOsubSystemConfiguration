@@ -1,19 +1,23 @@
-﻿using Application.DTO.Accountdto;
+﻿using Application.DTO;
+using Application.DTO.Accountdto;
 using Application.Features.AccountFeatures.Account.Query;
 using Application.Features.Department.Command;
 using Application.Features.Department.Query;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Runtime.CompilerServices;
 
 namespace Presentation.Controllers
 {
     public class DepartmentController : Controller
     {
         private readonly IMediator _mediator;
+     
         public DepartmentController(IMediator mediator)
         {
          _mediator = mediator;
+            
         }
         [Authorize(Policy ="Add User")]
         public IActionResult Index()
@@ -36,13 +40,15 @@ namespace Presentation.Controllers
             data.draw = Convert.ToInt16(draw);
             return Json(data);
         }
-        public JsonResult AddDepartment(Departmentdto dto)
+        public async Task<JsonResult>AddDepartment(Departmentdto dto)
         {
+            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
             var Data = new DepartmenCommand
             { 
-            DepartmentName = dto.DepartmentName
+            DepartmentName = dto.DepartmentName,
+            AddedBy = userId
             };
-            var Result  = _mediator.Send(Data); 
+            var Result  = await _mediator.Send(Data); 
             return Json(new { success=true});
         }
     }

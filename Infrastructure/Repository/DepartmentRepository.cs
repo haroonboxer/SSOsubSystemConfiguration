@@ -23,7 +23,7 @@ namespace Infrastructure.Repository
         }
         public async Task<DataTableReturnType> LoadDepartment(int start,int length)
         {
-            var Department = await _db.Database.SqlQuery<Departmentdto>($@"SELECT [DepartmentId],[DepartmentName] FROM [Departments]")
+            var Department = await _db.Database.SqlQuery<Departmentdto>($@"SELECT [DepartmentId],[DepartmentName],[AddedBy] FROM [Departments]")
                 .Skip(start)
                 .Take(length)
                 .ToListAsync();

@@ -10,6 +10,8 @@ namespace Domain
     {
         public string DepartmentId { get; set; }
         public string DepartmentName { get; set; }
+        public string AddedBy { get; set; }
+        public string? EditBy { get; set; }
    
 
     }

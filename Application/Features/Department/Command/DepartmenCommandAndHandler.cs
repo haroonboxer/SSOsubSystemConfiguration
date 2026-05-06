@@ -13,6 +13,7 @@ namespace Application.Features.Department.Command
     {
         public string? DepartmentId { get; set; }
         public string DepartmentName { get; set; }
+        public string? AddedBy { get; set; }
     }
     public class DepartmentHandler : IRequestHandler<DepartmenCommand, string>
     {
@@ -21,14 +22,15 @@ namespace Application.Features.Department.Command
         {
             _unitOfWork = unitOfWork;
         }
-        public Task<string> Handle(DepartmenCommand request, CancellationToken cancellationToken)
+        public async Task<string> Handle(DepartmenCommand request, CancellationToken cancellationToken)
         {
             var data = new Departmentdto
             {
                 Id = request.DepartmentId,
                 DepartmentName = request.DepartmentName,
+                AddedBy = request.AddedBy,  
             };
-           var result =  _unitOfWork.Account.AddDepartment(data);
+           var result =await  _unitOfWork.Account.AddDepartment(data);
             return result;
         }
     }
