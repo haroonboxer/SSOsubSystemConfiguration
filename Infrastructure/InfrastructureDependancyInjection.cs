@@ -58,7 +58,7 @@ namespace Infrastructure
             services.AddScoped<IUnitOfWork, UnitOfWorkRepository>();
 
             services.AddHttpContextAccessor();
-
+            services.AddHttpClient();
             return services;
         }
     }

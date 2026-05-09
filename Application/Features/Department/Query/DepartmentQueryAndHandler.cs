@@ -14,6 +14,7 @@ namespace Application.Features.Department.Query
     {
         public int start { get; set; }
         public int length { get; set; }
+        public string BaseURL { get; set; }
 
     }
     public class DepartmentHandler : IRequestHandler<DepartmentListQuery, DataTableReturnType>
@@ -25,7 +26,7 @@ namespace Application.Features.Department.Query
         }
       public async Task<DataTableReturnType> Handle(DepartmentListQuery request,CancellationToken cancellationtoken)
       {
-            var data =await _db.Departments.LoadDepartment(request.start,request.length);
+            var data =await _db.Departments.LoadDepartment(request.start,request.length,request.BaseURL);
             return data; 
       }
 

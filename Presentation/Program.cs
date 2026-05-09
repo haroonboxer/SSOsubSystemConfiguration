@@ -39,7 +39,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         return Task.CompletedTask;
     };
 });
-
+builder.Services.AddHttpContextAccessor();
 //builder.Services.AddAuthorization(options =>
 //{
 //    options.AddPolicy("Authentication Management", policy =>

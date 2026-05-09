@@ -56,7 +56,7 @@ namespace Presentation.Controllers
         {
             if (string.IsNullOrEmpty(token))
             {
-                var ssoLoginUrl = "https://localhost:7161/"; // your SSO
+                var ssoLoginUrl = "https://localhost:7161/";
 
                 var returnUrl = Uri.EscapeDataString(
                     $"{Request.Scheme}://{Request.Host}{Request.Path}"
@@ -83,6 +83,7 @@ namespace Presentation.Controllers
 
                     IssuerSigningKey = new SymmetricSecurityKey(key),
                     ClockSkew = TimeSpan.Zero
+
                 }, out _);
 
                 var identity = principal.Identity as ClaimsIdentity;
@@ -120,7 +121,7 @@ namespace Presentation.Controllers
                 }
 
                 // -----------------------------
-                // 3. Permissions (FIXED PART)
+                // 3. Permissions
                 // -----------------------------
                 var roleClaimsJson = identity.FindFirst("role_claims")?.Value;
 
@@ -138,16 +139,29 @@ namespace Presentation.Controllers
                         }
                     }
                 }
+
                 var userId = identity.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
                 if (!string.IsNullOrEmpty(userId))
                 {
-                    claimsIdentity.AddClaim(new Claim(ClaimTypes.NameIdentifier, userId));
+                    claimsIdentity.AddClaim(
+                        new Claim(ClaimTypes.NameIdentifier, userId)
+                    );
                 }
+
                 // -----------------------------
                 // 4. Sign in
                 // -----------------------------
                 var principalToSign = new ClaimsPrincipal(claimsIdentity);
+
+                // ✅ STORE JWT TOKEN IN COOKIE
+                Response.Cookies.Append("access_token", token, new CookieOptions
+                {
+                    HttpOnly = true,
+                    Secure = false, // true in production HTTPS
+                    SameSite = SameSiteMode.Lax,
+                    Expires = DateTime.UtcNow.AddHours(2)
+                });
 
                 await HttpContext.SignInAsync(
                     CookieAuthenticationDefaults.AuthenticationScheme,
@@ -166,12 +180,11 @@ namespace Presentation.Controllers
             }
         }
 
-      
-    
-   
-       
-       
-      
-     
+
+
+
+
+
+
     }
 }

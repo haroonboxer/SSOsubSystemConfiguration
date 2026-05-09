@@ -6,6 +6,7 @@ using Application.Features.Department.Query;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using System.Runtime.CompilerServices;
 
 namespace Presentation.Controllers
@@ -13,11 +14,12 @@ namespace Presentation.Controllers
     public class DepartmentController : Controller
     {
         private readonly IMediator _mediator;
-     
-        public DepartmentController(IMediator mediator)
+        private readonly IConfiguration _configuration;
+        public DepartmentController(IMediator mediator, IConfiguration configuration)
         {
          _mediator = mediator;
-            
+            _configuration = configuration;
+
         }
         [Authorize(Policy ="Add User")]
         public IActionResult Index()
@@ -30,11 +32,12 @@ namespace Presentation.Controllers
             var draw = Request.Form["draw"].FirstOrDefault();
             int start =Convert.ToInt16(Request.Form["start"].FirstOrDefault() ?? "0") ;
             int length = Convert.ToInt16(Request.Form["length"].FirstOrDefault() ?? "10");
-
+            var baseUrl = _configuration["ApiSettings:UserServiceBaseUrl"];
             var Query =new DepartmentListQuery
             {
                 start = start,
-                length = length
+                length = length,
+                BaseURL = baseUrl,
             };
             var data = await _mediator.Send(Query);
             data.draw = Convert.ToInt16(draw);

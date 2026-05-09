@@ -10,7 +10,8 @@ namespace Application.DTO.Accountdto
     {
         public string Id { get; set; }
         public string DepartmentName { get; set; }
-        public string? AddedBy { get; set; }
+        public string AddedBy { get; set; }
+        public string? UserName { get; set; }
 
     }
 }

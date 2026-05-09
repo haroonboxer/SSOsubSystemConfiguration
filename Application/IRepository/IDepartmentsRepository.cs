@@ -11,6 +11,6 @@ namespace Application.IRepository
 {
     public interface IDepartmentsRepository 
     {
-        public Task<DataTableReturnType> LoadDepartment(int start,int length);
+        public Task<DataTableReturnType> LoadDepartment(int start,int length,string BaseURL);
     }
 }
