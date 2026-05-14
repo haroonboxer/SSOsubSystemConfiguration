@@ -326,7 +326,9 @@
                                                 </ul>
                                             </div>
                                         </li>
+                                        
                                     </ul>
+                                  
                                 </ul>
                                 <!--end::Header Nav-->
                             </div>
@@ -337,6 +339,20 @@
                         <!--begin::Topbar-->
 
                         <div class="topbar hidden-print">
+                            <!--begin::Project Dropdown-->
+                            <div class="topbar-item d-flex align-items-center mr-4">
+
+                                @* <label for="Projects" class="text-white mb-0 mr-2">
+                                    @Localizer["Select Project"]
+                                </label> *@
+
+                                <select class="form-control form-control-sm w-auto" id="Projects" name="Projects">
+                                    <option value=""> </option>
+                                 
+                                </select>
+
+                            </div>
+                            <!--end::Project Dropdown-->
                             <!--begin::Languages-->
                             <div class="dropdown">
                                 <!--begin::Toggle-->
@@ -377,6 +393,7 @@
                                 </div>
                                 <!--end::Dropdown-->
                             </div>
+                         
                             <!--end::Languages-->
                             <!--begin::User-->
                             <div class="topbar-item">
@@ -640,13 +657,62 @@
     <!--end::Page Vendors-->
     <!--begin::Page Scripts(used by this page)-->
     <script src="~/assets/js/pages/widgets.js"></script>
-
-
     <script src="~/assets/plugins/jquery-validation/jquery.validate.min.js"></script>
     <script src="~/assets/js/pages/crud/forms/widgets/select2.js"></script>
     <!--end::Page Scripts-->
     @await RenderSectionAsync("script", required: false)
     <script>
+        $(document).ready(function(){
+            $("#Projects").select2({
+                placeholder:"@Localizer["Select Project"]",
+                allowClear:true,
+                width:"100%"
+            })
+        });
+        $(document).ready(function()
+        {
+           $.ajax({
+               url:"/API/LoadProjects",
+               Type:"GET",
+               dataType:"JSON",
+               beforeSend:function()
+               {
+
+               },
+               complete:function()
+               {
+
+               },
+               success:function(response)
+               {
+                   
+                   $("#Projects").empty();
+                   $.each(response.data,function(index,item)
+                   {
+                       $("#Projects").append(`<option value='${item.projectId}'>${item.projectName}</option>`);
+                   });
+                   
+                   
+               },
+               error:function()
+               {
+
+               },
+           });
+        });
+        $(document).ready(function()
+        {
+         $("#Projects").on("change", function () {
+
+            let projectid = $(this).val();
+            console.log(projectid);
+            if (projectid !== 0) {
+
+                window.location.href =`https://localhost:7161/Project/JumpBetweenTheProject?projectid=${encodeURIComponent(projectid)}`;
+            }
+
+        });
+        })
         $(document).ready(function () {
             $("#kt_quick_user_close").click(function () {
                 $("#changepasswordForm")[0].reset();

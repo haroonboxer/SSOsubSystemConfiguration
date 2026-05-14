@@ -134,7 +134,8 @@ namespace Presentation.Controllers
                         if (claim.ClaimValue?.ToString().ToLower() == "true")
                         {
                             claimsIdentity.AddClaim(
-                                new Claim("Permission", claim.ClaimType.Trim())
+                                new Claim(claim.ClaimType.Trim(),
+                                    claim.ClaimValue.ToString())
                             );
                         }
                     }
@@ -179,12 +180,5 @@ namespace Presentation.Controllers
                 return Unauthorized("Invalid token");
             }
         }
-
-
-
-
-
-
-
     }
 }

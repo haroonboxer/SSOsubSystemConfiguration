@@ -66,25 +66,25 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("Authentication Management", policy =>
-        policy.RequireClaim("Permission", "Authentication Management"));
+        policy.RequireClaim( "Authentication Management","True"));
 
     options.AddPolicy("Add User", policy =>
-        policy.RequireClaim("Permission", "Add User"));
+        policy.RequireClaim("Add User", "True"));
 
     options.AddPolicy("Edit User", policy =>
-        policy.RequireClaim("Permission", "Edit User"));
+        policy.RequireClaim("Permission", "Edit User", "True"));
 
     options.AddPolicy("User Activation", policy =>
-        policy.RequireClaim("Permission", "User Activation"));
+        policy.RequireClaim("User Activation", "True"));
 
     options.AddPolicy("Add Role", policy =>
-        policy.RequireClaim("Permission", "Add Role"));
+        policy.RequireClaim("Add Role", "True"));
 
     options.AddPolicy("Edit Role", policy =>
-        policy.RequireClaim("Permission", "Edit Role"));
+        policy.RequireClaim("Edit Role", "True"));
 
     options.AddPolicy("Role Management", policy =>
-        policy.RequireClaim("Permission", "Role Management"));
+        policy.RequireClaim("Role Management", "True"));
 });
 // Add localization services
 builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
